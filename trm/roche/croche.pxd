@@ -1,7 +1,7 @@
 from libcpp.string cimport string
 from libcpp cimport bool
 
-from csubs cimport Vec3
+from .csubs cimport Vec3
 
 cdef extern from "trm/roche.h" namespace "Roche":
     enum STAR:

@@ -5,8 +5,8 @@ import numpy as np
 from cython.operator cimport dereference as deref
 from libcpp cimport bool
 
-from croche cimport *
-from csubs cimport Vec3
+from .croche cimport *
+from .csubs cimport Vec3
 
 class RocheError(Exception):
     pass
@@ -365,7 +365,7 @@ def shadow(q,iangle,phi,n=200,dist=5.,acc=1.e-4):
     # compute roche shadow
     roche_shadow(q,iangle,phi,dist,acc,&x_view[0],&y_view[0],<bool*> &s_view[0],n)
 
-    return x, y, s.view(np.bool)
+    return x, y, s.view('bool')
 
 def streamr(q, rad, n=200):
     """
