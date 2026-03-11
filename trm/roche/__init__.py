@@ -5,7 +5,7 @@ This module provides some easy-to-use routines for computations
 to do with Roche geometry. All routines work in coordinates scaled
 by the binary separation, and time units such that the binary angular
 frequency = 1. The one exception to the rule are the stream routines
-which have a step parameter scaled by the distance to the inner 
+which have a step parameter scaled by the distance to the inner
 Lagrangian point.
 
 
@@ -72,8 +72,8 @@ def bsphases(q, iangle, rbs):
 
 def qirbs(deltaphi, pbi, pbe, ilo=78., ns=200):
     """
-    (q,i,rbs) = qirbs(deltaphi, pbi, pbe, ilo=78., ihi=90., rlo=0.1) -- computes mass 
-    ratio, inclination and the radius of the bright-spot given the phase width of the 
+    (q,i,rbs) = qirbs(deltaphi, pbi, pbe, ilo=78., ihi=90., rlo=0.1) -- computes mass
+    ratio, inclination and the radius of the bright-spot given the phase width of the
     white dwarf's eclipse and the ingress and egress phases of the bright-spot.
 
     deltaph -- phase width of white dwarf's eclipse
@@ -88,7 +88,7 @@ def qirbs(deltaphi, pbi, pbe, ilo=78., ns=200):
     The function works by guessing an inclination angle then computing a corresponding
     mass ratio to match the deltaphi value. It then computes the path of the gas stream
     which it then converts to ingress/egress phase. It then calculates the point of closest
-    approach by working out the distance of the bright-spot in ingress/egress space from 
+    approach by working out the distance of the bright-spot in ingress/egress space from
     each line segment joining any two points along the path. It then binary chops on the
     orbital inclination angle until the right combination is found that gives the correct
     bright-spot phases. It is possible that no closest approach point is found in which case
@@ -99,7 +99,7 @@ def qirbs(deltaphi, pbi, pbe, ilo=78., ns=200):
     while ihi > ilo + 0.0001:
         iangle = (ilo+ihi)/2.
 
-        # Compute the mass ratio and the stream path 
+        # Compute the mass ratio and the stream path
         q    = findq(iangle, deltaphi)
         (x,y,vx1,vy1,vx2,vy2) = strmnx(q)
         rmin = m.sqrt(x**2+y**2)
@@ -123,7 +123,7 @@ def qirbs(deltaphi, pbi, pbe, ilo=78., ns=200):
         # to be valid at the point of closest approach.
         dsqmin = 1.e30
         found  = False
-        for i in xrange(len(pi)-1):
+        for i in range(len(pi)-1):
             x0 = pi[i]
             y0 = pe[i]
             vx = pi[i+1] - pi[i]
@@ -136,7 +136,7 @@ def qirbs(deltaphi, pbi, pbe, ilo=78., ns=200):
                 dsqmin = dsq
                 imin   = i
                 check  = -vy*(x0-pbi)+vx*(y0-pbe)
-                lam    = vdotamb/vsq    
+                lam    = vdotamb/vsq
                 found  = True
 
         if not found:
@@ -196,7 +196,7 @@ def wdphases(q, iangle, r1, r2=-1, ntheta=200):
         around the quadrant. This can be used to define the 3rd contact
         """
         x,y = xyv(iangle, r1, phase)
-        for i in xrange(ntheta):
+        for i in range(ntheta):
             theta = (m.pi/2.)*i/float(ntheta-1)
             v = -x*m.cos(theta) + y*m.sin(theta)
             if not fblink(q, iangle, phase, v, ffac, 1.e-5):
@@ -210,7 +210,7 @@ def wdphases(q, iangle, r1, r2=-1, ntheta=200):
         around the quadrant. This can be used to define the 4th contact
         """
         x,y = xyv(iangle, r1, phase)
-        for i in xrange(ntheta):
+        for i in range(ntheta):
             theta = (m.pi/2.)*i/float(ntheta-1)
             v = x*m.cos(theta) - y*m.sin(theta)
             if fblink(q, iangle, phase, v, ffac, 1.e-5):
@@ -226,7 +226,7 @@ def wdphases(q, iangle, r1, r2=-1, ntheta=200):
 
     while phi4hi - phi4lo > r1/ntheta/10.:
         phi4 = (phi4lo+phi4hi)/2.
-        if eclipsed4(q, iangle, phi4, r1, ffac, ntheta): 
+        if eclipsed4(q, iangle, phi4, r1, ffac, ntheta):
             phi4lo = phi4
         else:
             phi4hi = phi4
@@ -285,14 +285,14 @@ def jacobi(q, r, v):
     """
     f1  = 1/(1+q)
     f2  = f1*q
-    sec = subs.Vec3(1,0,0) 
+    sec = subs.Vec3(1,0,0)
     return (v.sqnorm()-r.y**2-(r.x-f2)**2)/2.-f1/r.norm()-f2/(r-sec).norm()
 
 def rcirc(q):
     """
     Returns circularisation radius from Verbunt & Rappaport (as fraction of binary
     separation)
-    
+
     q : mass ratio = M2/M1
     """
     lq = np.log10(q)
