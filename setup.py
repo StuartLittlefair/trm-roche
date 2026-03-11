@@ -52,7 +52,7 @@ roche = [
 directives = {"language_level": "3", "always_allow_keywords": True}
 setup(
     name="trm.roche",
-    version="0.1",
+    version="0.1.1",
     packages=["trm", "trm.roche"],
     ext_modules=cythonize(roche, compiler_directives=directives, annotate=True),
     author="Tom Marsh",
